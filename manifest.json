@@ -1,0 +1,24 @@
+
+{
+    "manifest_version": 3,
+    "name": "xDash | AF Demo Tool",
+    "version": "1.0",
+    "description": "Create custom AF Demo Experiences",
+    "action": {
+        "default_popup": "popup.html"
+    },
+    "permissions": ["storage", "scripting"],
+    "content_scripts": [
+        {
+            "matches": [
+                "https://hq1.appsflyer.com/unified-ltv/dashboard/com.appsflyer.android.demo.app.gaming*",
+                "https://hq1.appsflyer.com/apps/myapps*",
+                "https://hq1.appsflyer.com/skadnetwork/dashboard/id1510243350*",
+                "https://hq1.appsflyer.com/unified-ltv/dashboard/id1510243350*",
+                "https://hq1.appsflyer.com/activities/overview/id1510243350*"                
+            ],
+            "js": ["content.js"],
+            "css": ["styles.css"]
+        }
+    ]
+}
