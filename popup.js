@@ -14,6 +14,15 @@ document.addEventListener('DOMContentLoaded', function() {
     loadExistingMappings();
     loadOrSetDefaultImage();
 
+    fetch('verticals.json')
+    .then(response => response.json())
+    .then(data => {
+        console.log("Verticals data:", data);
+        // Process and use your data here
+    })
+    .catch(error => console.error("Error loading verticals.json:", error));
+
+
     function createUnsavedChangesMsg() {
         const msg = document.createElement('div');
         msg.id = 'unsaved-changes-msg';

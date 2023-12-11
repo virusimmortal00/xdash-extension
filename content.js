@@ -154,6 +154,23 @@ function replaceTextInElement(element) {
     });
 }
 
+function observeDOMChanges() {
+    const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            mutation.addedNodes.forEach(node => {
+                if (node.nodeType === Node.ELEMENT_NODE) {
+                    replaceTextInElement(node);
+                }
+            });
+        });
+    });
+
+    const config = { childList: true, subtree: true };
+    observer.observe(document.body, config);
+}
+
+
+
 // Add keyframes for spin and color change animations
 const styleSheet = document.createElement("style");
 styleSheet.type = "text/css";
@@ -179,3 +196,7 @@ let interval = setInterval(function() {
         clearInterval(interval);
     }
 }, 2000);
+
+// Call this function at the end of your script
+observeDOMChanges();
+
