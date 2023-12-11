@@ -10,18 +10,21 @@ document.addEventListener('DOMContentLoaded', function() {
     const unsavedChangesMsg = createUnsavedChangesMsg();
 
     saveButton.parentNode.insertBefore(unsavedChangesMsg, saveButton);
-    setEventListeners();
     loadExistingMappings();
     loadOrSetDefaultImage();
 
-    fetch('verticals.json')
-    .then(response => response.json())
-    .then(data => {
-        console.log("Verticals data:", data);
-        // Process and use your data here
-    })
-    .catch(error => console.error("Error loading verticals.json:", error));
+    function inputChangeListener() {
+        unsavedChangesMsg.style.display = 'block';
+        unsavedChangesMsg.innerText = 'Unsaved changes - make sure to save.';
+        unsavedChangesMsg.style.color = 'red';
+    }
 
+    function addChangeListenerToInputs() {
+        document.querySelectorAll('.original-text, .new-text').forEach(input => {
+            input.removeEventListener('input', inputChangeListener);
+            input.addEventListener('input', inputChangeListener);
+        });
+    }
 
     function createUnsavedChangesMsg() {
         const msg = document.createElement('div');
@@ -39,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
         addMediaSourceButton.addEventListener('click', () => addMappingRow('mediaSources'));
         addInAppEventButton.addEventListener('click', () => addMappingRow('inAppEvents'));
         saveButton.addEventListener('click', saveMappings);
-    
+
         customImageUrlInput.addEventListener('input', () => {
             const url = customImageUrlInput.value;
             selectImage(url, !!url);
@@ -52,18 +55,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 customImagePreview.style.border = 'none';
                 customImagePreview.style.display = 'none';
             }
+            unsavedChangesMsg.style.display = 'block'; // Show unsaved changes message for custom URL changes
         });
-        
+
         document.querySelectorAll('.image-option').forEach(img => {
             img.addEventListener('click', () => {
-                const imgUrl = img.getAttribute('src');  // Using 'src' instead of 'data-url'
+                const imgUrl = img.getAttribute('src');
                 console.log("Predefined image option clicked:", imgUrl);
                 selectImage(imgUrl);
                 customImageUrlInput.value = '';
+                unsavedChangesMsg.style.display = 'block'; // Show unsaved changes message for image selection
             });
         });
     }
-    
 
     function addMappingRow(section, original = '', newText = '') {
         console.log("Adding mapping row to", section);
@@ -73,16 +77,19 @@ document.addEventListener('DOMContentLoaded', function() {
             <input type="text" class="original-text" placeholder="Original text" value="${original}">
             <input type="text" class="new-text" placeholder="New text" value="${newText}">
             <button class="action-button remove-mapping">&#10005;</button>`;
-        
+    
         const removeButton = mappingDiv.querySelector('.remove-mapping');
         removeButton.addEventListener('click', () => {
             mappingDiv.remove();
             unsavedChangesMsg.style.display = 'block';
         });
-
+    
         if (section === 'mediaSources') mediaSourcesDiv.appendChild(mappingDiv);
         else if (section === 'inAppEvents') inAppEventsDiv.appendChild(mappingDiv);
+    
+        addChangeListenerToInputs();
     }
+    
 
     function saveMappings() {
         console.log("Save button clicked");
@@ -92,26 +99,27 @@ document.addEventListener('DOMContentLoaded', function() {
             const newText = div.querySelector('.new-text').value;
             allMappings.push({ section: div.parentElement.id, original, newText });
         });
-    
+
         let imageToSave;
         const selectedImageElement = document.querySelector('.image-option[style*="border: 2px solid green"]');
         if (selectedImageElement) {
-            // Use the src of the selected predefined image
             imageToSave = selectedImageElement.getAttribute('src');
         } else if (customImageUrlInput.value) {
-            // Use the custom URL if provided
             imageToSave = customImageUrlInput.value;
         } else {
-            // Default image URL
             imageToSave = "https://web1.sa.appsflyer.com/xdash_images/af_icon_rainbow.png";
         }
-    
+
         chrome.storage.sync.set({ mappings: allMappings, selectedImage: imageToSave }, () => {
             console.log("Mappings and selected image saved:", allMappings, imageToSave);
-            unsavedChangesMsg.style.display = 'none';
+            unsavedChangesMsg.innerText = 'Changes saved!';
+            unsavedChangesMsg.style.color = 'green';
+            unsavedChangesMsg.style.display = 'block';
+            setTimeout(() => {
+                unsavedChangesMsg.style.display = 'none';
+            }, 2000);
         });
     }
-    
 
     function loadExistingMappings() {
         console.log("Loading existing mappings");
@@ -129,7 +137,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const selectedImage = result.selectedImage || defaultSelectedImage;
             console.log("Selected image:", selectedImage);
             selectImage(selectedImage);
-    
+
             if (selectedImage && !selectedImage.startsWith('https://web1.sa.appsflyer.com')) {
                 customImageUrlInput.value = selectedImage;
                 customImagePreview.innerHTML = `<img src="${selectedImage}" class="preview-image">`;
@@ -143,10 +151,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-    
-    
-    
-    
 
     function selectImage(url, isCustom = false) {
         console.log("selectImage called with URL:", url, "Is custom URL:", isCustom);
@@ -166,4 +170,7 @@ document.addEventListener('DOMContentLoaded', function() {
             customImagePreview.style.border = 'none';
         }
     }
+
+    addChangeListenerToInputs(); // Ensure change listeners are added to existing inputs
+    setEventListeners();
 });
