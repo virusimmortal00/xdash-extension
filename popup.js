@@ -5,11 +5,28 @@ document.addEventListener('DOMContentLoaded', function() {
     const addMediaSourceButton = document.getElementById('addMediaSource');
     const addInAppEventButton = document.getElementById('addInAppEvent');
     const saveButton = document.getElementById('save');
+    const saveSection = document.getElementById('saveSection');
     const customImageUrlInput = document.getElementById('customImageUrl');
     const customImagePreview = document.getElementById('customImagePreview');
     const unsavedChangesMsg = createUnsavedChangesMsg();
 
-    saveButton.parentNode.insertBefore(unsavedChangesMsg, saveButton);
+    const restoreDefaultsButton =  document.getElementById('restoreDefaults');
+    
+    const extensionStatusCheckbox = document.getElementById('extensionStatusCheckbox');
+
+    chrome.storage.sync.get(['extensionEnabled'], function(result) {
+        if (result.extensionEnabled === undefined) {
+            chrome.storage.sync.set({ 'extensionEnabled': true }); // Set default state in storage
+            extensionStatusCheckbox.checked = true; // Set the checkbox state
+        } else {
+            extensionStatusCheckbox.checked = result.extensionEnabled;
+        }
+    });
+
+     // Add an event listener for the "Restore Defaults" button
+    restoreDefaultsButton.addEventListener('click', restoreDefaults);
+
+    saveSection.parentNode.insertBefore(unsavedChangesMsg, saveSection);
     loadExistingMappings();
     loadOrSetDefaultImage();
 
@@ -30,11 +47,13 @@ document.addEventListener('DOMContentLoaded', function() {
         const msg = document.createElement('div');
         msg.id = 'unsaved-changes-msg';
         msg.innerText = 'Unsaved changes - make sure to save.';
-        msg.style.color = 'red';
-        msg.style.display = 'none'; // Initially hidden
-        msg.style.fontSize = '12px';
-        msg.style.marginBottom = '10px';
         return msg;
+    }
+
+    function inputChangeListener() {
+        unsavedChangesMsg.style.display = 'block';
+        unsavedChangesMsg.innerText = 'Unsaved changes - make sure to save.';
+        unsavedChangesMsg.style.color = 'red';
     }
 
     function setEventListeners() {
@@ -42,6 +61,7 @@ document.addEventListener('DOMContentLoaded', function() {
         addMediaSourceButton.addEventListener('click', () => addMappingRow('mediaSources'));
         addInAppEventButton.addEventListener('click', () => addMappingRow('inAppEvents'));
         saveButton.addEventListener('click', saveMappings);
+        extensionStatusCheckbox.addEventListener('change', inputChangeListener);
 
         customImageUrlInput.addEventListener('input', () => {
             const url = customImageUrlInput.value;
@@ -74,8 +94,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const mappingDiv = document.createElement('div');
         mappingDiv.className = 'mapping-row';
         mappingDiv.innerHTML = `
-            <input type="text" class="original-text" placeholder="Original text" value="${original}">
-            <input type="text" class="new-text" placeholder="New text" value="${newText}">
+            <input type="text" class="original-text" placeholder="Original" value="${original}">
+            <input type="text" class="new-text" placeholder="Replacement" value="${newText}">
             <button class="action-button remove-mapping">&#10005;</button>`;
     
         const removeButton = mappingDiv.querySelector('.remove-mapping');
@@ -97,9 +117,11 @@ document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('#mediaSources .mapping-row, #inAppEvents .mapping-row').forEach(div => {
             const original = div.querySelector('.original-text').value;
             const newText = div.querySelector('.new-text').value;
+    
+            // Include all mappings, even if "New text" is blank
             allMappings.push({ section: div.parentElement.id, original, newText });
         });
-
+    
         let imageToSave;
         const selectedImageElement = document.querySelector('.image-option[style*="border: 2px solid green"]');
         if (selectedImageElement) {
@@ -109,6 +131,12 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             imageToSave = "https://web1.sa.appsflyer.com/xdash_images/af_icon_rainbow.png";
         }
+    
+        // Save the state of the checkbox
+        const isEnabled = extensionStatusCheckbox.checked;
+        chrome.storage.sync.set({ 'extensionEnabled': isEnabled }, function() {
+            console.log('Extension status saved:', isEnabled);
+        });
 
         chrome.storage.sync.set({ mappings: allMappings, selectedImage: imageToSave }, () => {
             console.log("Mappings and selected image saved:", allMappings, imageToSave);
@@ -120,15 +148,57 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 2000);
         });
     }
+    
+    
 
     function loadExistingMappings() {
         console.log("Loading existing mappings");
+        const defaultMediaSources = [
+            "Facebook Ads",
+            "SMS",
+            "unityads_int",
+            "Apple Search Ads",
+            "applovin_int",
+            "remerge_int",
+            "Email",
+            "tapjoy_int",
+            "itonsource_int",
+            "adquant",
+            "criteo_int",
+            "googleadwords_int",
+            "ironsource_int"
+        ];
+    
+        const defaultInAppEvents = [
+            "level_5_achieved",
+            "af_purchase",
+            "level_10_achieved",
+            "tutorial_completed",
+            "ad_monetized"
+        ];
+    
         chrome.storage.sync.get(['mappings'], function(result) {
             if (result.mappings) {
-                result.mappings.forEach(mapping => addMappingRow(mapping.section, mapping.original, mapping.newText));
+                result.mappings.forEach(mapping => {
+                    if (mapping.section === 'mediaSources' && defaultMediaSources.includes(mapping.original)) {
+                        addMappingRow(mapping.section, mapping.original, mapping.newText);
+                    } else if (mapping.section === 'inAppEvents' && defaultInAppEvents.includes(mapping.original)) {
+                        addMappingRow(mapping.section, mapping.original, mapping.newText);
+                    }
+                });
+            } else {
+                // Add default mappings if there are no saved mappings
+                defaultMediaSources.forEach(original => {
+                    addMappingRow('mediaSources', original, '');
+                });
+    
+                defaultInAppEvents.forEach(original => {
+                    addMappingRow('inAppEvents', original, '');
+                });
             }
         });
     }
+    
 
     function loadOrSetDefaultImage() {
         console.log("Loading or setting default image");
@@ -170,6 +240,66 @@ document.addEventListener('DOMContentLoaded', function() {
             customImagePreview.style.border = 'none';
         }
     }
+
+    
+
+    function restoreDefaults() {
+        // Remove all existing mappings
+        document.querySelectorAll('.mapping-row').forEach(mappingRow => {
+            mappingRow.remove();
+        });
+
+        // Load default mappings
+        loadDefaultMappings();
+
+        // Clear custom image URL and reset image preview
+        customImageUrlInput.value = '';
+        customImagePreview.innerHTML = '';
+        customImagePreview.style.border = 'none';
+
+        // Hide unsaved changes message
+        unsavedChangesMsg.style.display = 'none';
+    }
+
+    // Function to load default mappings
+    function loadDefaultMappings() {
+        // Define default mappings for Media Sources and In App Events
+        const defaultMediaSources = [
+            "Facebook Ads",
+            "SMS",
+            "unityads_int",
+            "Apple Search Ads",
+            "applovin_int",
+            "remerge_int",
+            "Email",
+            "tapjoy_int",
+            "itonsource_int",
+            "adquant",
+            "criteo_int",
+            "googleadwords_int",
+            "ironsource_int"
+        ];
+
+        const defaultInAppEvents = [
+            "level_5_achieved",
+            "af_purchase",
+            "level_10_achieved",
+            "tutorial_completed",
+            "ad_monetized"
+        ];
+
+        // Add default mappings to the UI
+        defaultMediaSources.forEach(original => {
+            addMappingRow('mediaSources', original, '');
+        });
+
+        defaultInAppEvents.forEach(original => {
+            addMappingRow('inAppEvents', original, '');
+        });
+    }
+
+    
+
 
     addChangeListenerToInputs(); // Ensure change listeners are added to existing inputs
     setEventListeners();

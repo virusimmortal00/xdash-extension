@@ -21,7 +21,7 @@
                 "https://hq1.appsflyer.com/activities/overview/id1510243350*"                
             ],
             "js": ["content.js"],
-            "css": ["styles.css"]
+            "css": ["css/content.css"]
         }
     ]
 }
