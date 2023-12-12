@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>xDash | Custom Demo Tool</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="css/popup.css">
+</head>
+<body>
+    <!-- Image Replacement Section -->
+    <div class="image-replacement-section">
+        <div class="subsection-header">App Icon:</div>
+        <div class="image-options">
+            <img src="https://web1.sa.appsflyer.com/xdash_images/af_icon_rainbow.png" alt="green icon" class="image-option" data-url="https://web1.sa.appsflyer.com/xdash_images/af_icon_rainbow.png">
+            <img src="https://web1.sa.appsflyer.com/xdash_images/af_icon_red.png" alt="green icon" class="image-option" data-url="https://web1.sa.appsflyer.com/xdash_images/af_icon_red.png">
+            <img src="https://web1.sa.appsflyer.com/xdash_images/af_icon_orange.png" alt="green icon" class="image-option" data-url="https://web1.sa.appsflyer.com/xdash_images/af_icon_orange.png">
+            <img src="https://web1.sa.appsflyer.com/xdash_images/af_icon_green.png" alt="green icon" class="image-option" data-url="https://web1.sa.appsflyer.com/xdash_images/af_icon_green.png">
+      </div>
+        <div class="subsection-header" id="customiconsection">Custom Icon URL:</div>
+        <input type="text" id="customImageUrl" placeholder="Or enter a custom image URL">
+        <div id="customImagePreview" class="image-preview"></div>
+    </div>
+
+    <!-- Media Sources Section -->
+    <div class="subsection" id="mediasection">
+        <div class="subsection-header">Media Sources:</div>
+        <div id="mediaSources"></div>
+        <button id="addMediaSource" class="action-button">&#x2795;</button> <!-- Plus Emoji -->
+    </div>
+    <!-- In App Events Section -->
+    <div class="subsection" id="inappsection">
+        <div class="subsection-header">In App Events:</div>
+        <div id="inAppEvents" class="space-y-2"></div>
+        <button id="addInAppEvent" class="action-button">&#x2795;</button> <!-- Plus Emoji -->
+    </div>
+
+    <div class="save-section" id="saveSection">
+        <button id="save">Save</button>
+    </div>
+<hr>
+    <div class="restore-section">
+        <div class="defaults-text">Restore Defaults:</div>
+        <button id="restoreDefaults">Restore</button>
+        <div> | </div>
+        <div class="defaults-text">Extension Active:</div>
+        <div class="switch">
+              <input type="checkbox" checked="checked" style="cursor: pointer;" id="extensionStatusCheckbox">
+        </div>
+    </div>
+    
+    <script src="popup.js"></script>
+</body>
+</html>
