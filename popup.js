@@ -162,7 +162,6 @@ document.addEventListener('DOMContentLoaded', function() {
             "remerge_int",
             "Email",
             "tapjoy_int",
-            "itonsource_int",
             "adquant",
             "criteo_int",
             "googleadwords_int",
