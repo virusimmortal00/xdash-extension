@@ -165,7 +165,18 @@ document.addEventListener('DOMContentLoaded', function() {
             "adquant",
             "criteo_int",
             "googleadwords_int",
-            "ironsource_int"
+            "ironsource_int",
+            "bytedanceglobal_int",
+            "reddit_int",
+            "twitter_int",
+            "snapchat_int",
+            "vungle_int",
+            "tiktok_int",
+            "taboola_int",
+            "appguardion_int",
+            "blindferret_int",
+            "crosstarget_int",
+            "Google"
         ];
     
         const defaultInAppEvents = [

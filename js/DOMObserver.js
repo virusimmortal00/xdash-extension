@@ -1,6 +1,7 @@
 // DOMObserver.js
+import { replaceTextInElement } from './textReplacer.js';
 
-function observeDOMChanges() {
+  export   function observeDOMChanges() {
     const observer = new MutationObserver(function (mutations) {
       mutations.forEach(function (mutation) {
         mutation.addedNodes.forEach((node) => {

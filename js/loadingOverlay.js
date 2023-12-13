@@ -70,7 +70,7 @@ export function createLoadingOverlay() {
 }
 
 export function removeLoadingOverlay() {
-  console.log("Attempting to remove loading overlay");
+  //console.log("Attempting to remove loading overlay");
   let overlay = document.getElementById("my-extension-loading-overlay");
   if (overlay) {
     overlay.remove();

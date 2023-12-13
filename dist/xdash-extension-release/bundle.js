@@ -1,12 +1,18 @@
 /******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
 /***/ "./js/DOMObserver.js":
 /*!***************************!*\
   !*** ./js/DOMObserver.js ***!
   \***************************/
-/***/ (() => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   observeDOMChanges: () => (/* binding */ observeDOMChanges)
+/* harmony export */ });
+/* harmony import */ var _textReplacer_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./textReplacer.js */ "./js/textReplacer.js");
 // DOMObserver.js
 
 function observeDOMChanges() {
@@ -14,7 +20,7 @@ function observeDOMChanges() {
     mutations.forEach(function (mutation) {
       mutation.addedNodes.forEach(function (node) {
         if (node.nodeType === Node.ELEMENT_NODE) {
-          replaceTextInElement(node);
+          (0,_textReplacer_js__WEBPACK_IMPORTED_MODULE_0__.replaceTextInElement)(node);
         }
       });
     });
@@ -28,13 +34,32 @@ function observeDOMChanges() {
 
 /***/ }),
 
+/***/ "./js/createAnimationStyles.js":
+/*!*************************************!*\
+  !*** ./js/createAnimationStyles.js ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   createAnimationStyles: () => (/* binding */ createAnimationStyles)
+/* harmony export */ });
+function createAnimationStyles() {
+  // Add keyframes for spin and color change animations
+  var styleSheet = document.createElement("style");
+  styleSheet.type = "text/css";
+  styleSheet.innerText = "\n@keyframes spin {\n    0% { transform: rotate(0deg); }\n    50% { transform: rotate(180deg); }\n    100% { transform: rotate(360deg); }\n}\n@keyframes colorChange {\n    0% { border-top-color: #3498db; }\n    33% { border-top-color: #e74c3c; }\n    66% { border-top-color: #2ecc71; }\n    100% { border-top-color: #3498db; }\n}";
+  document.head.appendChild(styleSheet);
+}
+
+/***/ }),
+
 /***/ "./js/imageReplacer.js":
 /*!*****************************!*\
   !*** ./js/imageReplacer.js ***!
   \*****************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   replaceImage: () => (/* binding */ replaceImage)
@@ -52,7 +77,14 @@ function replaceImage() {
       console.log("No selected image found in storage, using default");
       imageToUse = "https://web1.sa.appsflyer.com/xdash_images/af_icon_rainbow.png"; // Default image URL
     }
-    var images = document.querySelectorAll(".MuiAvatar-img");
+    var images;
+    if (window.location.href.includes("onelink")) {
+      // If the current URL contains "onelink"
+      images = document.querySelectorAll('[class^="onelink-MuiAvatar-img"]'); // For OneLink
+    } else {
+      // If the current URL does not contain "onelink"
+      images = document.querySelectorAll('[class^="MuiAvatar-img"]');
+    }
     var imagesChanged = 0;
     var totalImages = images.length;
     console.log("Found ".concat(totalImages, " images for replacement with '").concat(imageToUse, "'"));
@@ -93,7 +125,6 @@ function replaceImage() {
   \******************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   createLoadingOverlay: () => (/* binding */ createLoadingOverlay),
@@ -162,7 +193,7 @@ function createLoadingOverlay() {
   console.log("Loading overlay created");
 }
 function removeLoadingOverlay() {
-  console.log("Attempting to remove loading overlay");
+  //console.log("Attempting to remove loading overlay");
   var overlay = document.getElementById("my-extension-loading-overlay");
   if (overlay) {
     overlay.remove();
@@ -180,7 +211,6 @@ function removeLoadingOverlay() {
   \****************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   replaceTextInElement: () => (/* binding */ replaceTextInElement)
@@ -239,18 +269,6 @@ function replaceTextInElement(element) {
 /******/ 	}
 /******/ 	
 /************************************************************************/
-/******/ 	/* webpack/runtime/compat get default export */
-/******/ 	(() => {
-/******/ 		// getDefaultExport function for compatibility with non-harmony modules
-/******/ 		__webpack_require__.n = (module) => {
-/******/ 			var getter = module && module.__esModule ?
-/******/ 				() => (module['default']) :
-/******/ 				() => (module);
-/******/ 			__webpack_require__.d(getter, { a: getter });
-/******/ 			return getter;
-/******/ 		};
-/******/ 	})();
-/******/ 	
 /******/ 	/* webpack/runtime/define property getters */
 /******/ 	(() => {
 /******/ 		// define getter functions for harmony exports
@@ -281,24 +299,23 @@ function replaceTextInElement(element) {
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
-// This entry need to be wrapped in an IIFE because it need to be in strict mode.
+// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
-"use strict";
 /*!********************!*\
   !*** ./content.js ***!
   \********************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _js_loadingOverlay_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./js/loadingOverlay.js */ "./js/loadingOverlay.js");
 /* harmony import */ var _js_imageReplacer_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./js/imageReplacer.js */ "./js/imageReplacer.js");
-/* harmony import */ var _js_textReplacer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./js/textReplacer.js */ "./js/textReplacer.js");
-/* harmony import */ var _js_DOMObserver_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./js/DOMObserver.js */ "./js/DOMObserver.js");
-/* harmony import */ var _js_DOMObserver_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_js_DOMObserver_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _js_DOMObserver_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./js/DOMObserver.js */ "./js/DOMObserver.js");
+/* harmony import */ var _js_createAnimationStyles_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./js/createAnimationStyles.js */ "./js/createAnimationStyles.js");
+/* harmony import */ var _js_textReplacer_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./js/textReplacer.js */ "./js/textReplacer.js");
+
 
 
 
 
 var url = window.location.href;
-console.log("Content script loaded");
 function checkExtensionStateAndRun() {
   chrome.storage.sync.get(["extensionEnabled"], function (result) {
     if (result.extensionEnabled !== false) {
@@ -313,33 +330,18 @@ function checkExtensionStateAndRun() {
 function mainFunctions() {
   console.log("Running main functions...");
   (0,_js_loadingOverlay_js__WEBPACK_IMPORTED_MODULE_0__.createLoadingOverlay)();
-  // Add keyframes for spin and color change animations
-  var styleSheet = document.createElement("style");
-  styleSheet.type = "text/css";
-  styleSheet.innerText = "\n    @keyframes spin {\n        0% { transform: rotate(0deg); }\n        50% { transform: rotate(180deg); }\n        100% { transform: rotate(360deg); }\n    }\n    @keyframes colorChange {\n        0% { border-top-color: #3498db; }\n        33% { border-top-color: #e74c3c; }\n        66% { border-top-color: #2ecc71; }\n        100% { border-top-color: #3498db; }\n    }";
-  document.head.appendChild(styleSheet);
+  (0,_js_createAnimationStyles_js__WEBPACK_IMPORTED_MODULE_3__.createAnimationStyles)();
+  var interval = setInterval(function () {
+    if (document.querySelector('[class^="MuiAvatar-img"]')) {
+      console.log("Starting image and text replacement process");
+      (0,_js_imageReplacer_js__WEBPACK_IMPORTED_MODULE_1__.replaceImage)();
+      (0,_js_textReplacer_js__WEBPACK_IMPORTED_MODULE_4__.replaceTextInElement)(document.body);
+      clearInterval(interval);
+    }
+  }, 2000);
 
-  // Replace images and text depending on the URL
-  if (url.includes('id1510243350') || url.includes('com.appsflyer.android.demo.app.gaming')) {
-    var interval = setInterval(function () {
-      if (document.querySelector(".MuiAvatar-img")) {
-        console.log("Starting image and text replacement process");
-        (0,_js_imageReplacer_js__WEBPACK_IMPORTED_MODULE_1__.replaceImage)();
-        (0,_js_textReplacer_js__WEBPACK_IMPORTED_MODULE_2__.replaceTextInElement)(document.body);
-        clearInterval(interval);
-      }
-    }, 2000);
-  }
-
-  // Other conditional checks for different URLs can be added here
-
-  // Observe DOM changes for dynamic content
-  (0,_js_DOMObserver_js__WEBPACK_IMPORTED_MODULE_3__.observeDOMChanges)();
-
-  // Remove the loading overlay when the necessary operations are complete
-  // This might need to be called inside replaceImage and replaceTextInElement
-  // depending on when those operations complete
-  (0,_js_loadingOverlay_js__WEBPACK_IMPORTED_MODULE_0__.removeLoadingOverlay)();
+  // Call this function at the end of your script
+  (0,_js_DOMObserver_js__WEBPACK_IMPORTED_MODULE_2__.observeDOMChanges)();
 }
 checkExtensionStateAndRun();
 })();
