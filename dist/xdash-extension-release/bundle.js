@@ -220,22 +220,33 @@ __webpack_require__.r(__webpack_exports__);
 function replaceTextInElement(element) {
   chrome.storage.sync.get(["mappings"], function (result) {
     if (result.mappings && element) {
-      var mappings = result.mappings;
-      element.childNodes.forEach(function (node) {
+      // Preprocess mappings to create regex-replacement pairs
+      var regexReplacementPairs = result.mappings.filter(function (mapping) {
+        return (mapping.section === "mediaSources" || mapping.section === "inAppEvents") && mapping.newText.trim() !== "";
+      }).map(function (mapping) {
+        return {
+          original: mapping.original,
+          regex: new RegExp(mapping.original, "gi"),
+          replacement: mapping.newText
+        };
+      });
+
+      // Sort mappings to handle longer strings first
+      regexReplacementPairs.sort(function (a, b) {
+        return b.original.length - a.original.length;
+      });
+      var processNode = function processNode(node) {
         if (node.nodeType === Node.TEXT_NODE) {
-          mappings.forEach(function (mapping) {
-            if (mapping.section === "mediaSources" || mapping.section === "inAppEvents") {
-              var regex = new RegExp(mapping.original, "gi");
-              // Check if newText is not blank before replacement
-              if (mapping.newText.trim() !== "") {
-                node.textContent = node.textContent.replace(regex, mapping.newText);
-              }
-            }
+          regexReplacementPairs.forEach(function (pair) {
+            node.textContent = node.textContent.replace(pair.regex, pair.replacement);
           });
         } else if (node.nodeType === Node.ELEMENT_NODE) {
-          replaceTextInElement(node);
+          Array.from(node.childNodes).forEach(processNode);
         }
-      });
+      };
+
+      // Process each child node of the element
+      Array.from(element.childNodes).forEach(processNode);
     }
   });
 }

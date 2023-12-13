@@ -92,6 +92,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function addMappingRow(section, original = '', newText = '') {
         console.log("Adding mapping row to", section);
         const mappingDiv = document.createElement('div');
+
         mappingDiv.className = 'mapping-row';
         mappingDiv.innerHTML = `
             <input type="text" class="original-text" placeholder="Original" value="${original}">
@@ -103,7 +104,7 @@ document.addEventListener('DOMContentLoaded', function() {
             mappingDiv.remove();
             unsavedChangesMsg.style.display = 'block';
         });
-    
+        console.log("New mapping row HTML:", mappingDiv.innerHTML);
         if (section === 'mediaSources') mediaSourcesDiv.appendChild(mappingDiv);
         else if (section === 'inAppEvents') inAppEventsDiv.appendChild(mappingDiv);
     
@@ -152,7 +153,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
 
     function loadExistingMappings() {
-        console.log("Loading existing mappings");
+        // Default mappings for media sources and in-app events
         const defaultMediaSources = [
             "Facebook Ads",
             "SMS",
@@ -181,22 +182,22 @@ document.addEventListener('DOMContentLoaded', function() {
     
         const defaultInAppEvents = [
             "level_5_achieved",
-            "af_purchase",
-            "level_10_achieved",
             "tutorial_completed",
-            "ad_monetized"
+            "af_purchase",
+            "ad_monetized",
+            "level_10_achieved",
         ];
     
+        console.log("Loading existing mappings");
+    
         chrome.storage.sync.get(['mappings'], function(result) {
-            if (result.mappings) {
+            if (result.mappings && result.mappings.length > 0) {
+                console.log("Saved mappings found:", result.mappings);
                 result.mappings.forEach(mapping => {
-                    if (mapping.section === 'mediaSources' && defaultMediaSources.includes(mapping.original)) {
-                        addMappingRow(mapping.section, mapping.original, mapping.newText);
-                    } else if (mapping.section === 'inAppEvents' && defaultInAppEvents.includes(mapping.original)) {
-                        addMappingRow(mapping.section, mapping.original, mapping.newText);
-                    }
+                    addMappingRow(mapping.section, mapping.original, mapping.newText);
                 });
             } else {
+                console.log("No saved mappings found. Adding default mappings.");
                 // Add default mappings if there are no saved mappings
                 defaultMediaSources.forEach(original => {
                     addMappingRow('mediaSources', original, '');
@@ -208,6 +209,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+    
     
 
     function loadOrSetDefaultImage() {

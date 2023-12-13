@@ -156,4 +156,15 @@ input[type=text] {
   display: none;
   text-align: center;
   margin-bottom: 15px;
+}
+
+.text-blurb {
+  font-size: 0.4em;
+  color: #7b7b7b;
+  margin-top: 0.5em;
+  margin-bottom: 1em;
+  padding: 0.5em;
+  border-left: 3px solid #ccc;
+  background-color: #f9f9f9;
+  font-style: italic;
 }/*# sourceMappingURL=popup.css.map */

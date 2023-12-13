@@ -11,11 +11,12 @@
     <div class="image-replacement-section">
         <div class="subsection-header">App Icon:</div>
         <div class="image-options">
-            <img src="https://web1.sa.appsflyer.com/xdash_images/af_icon_rainbow.png" alt="green icon" class="image-option" data-url="https://web1.sa.appsflyer.com/xdash_images/af_icon_rainbow.png">
-            <img src="https://web1.sa.appsflyer.com/xdash_images/af_icon_red.png" alt="green icon" class="image-option" data-url="https://web1.sa.appsflyer.com/xdash_images/af_icon_red.png">
-            <img src="https://web1.sa.appsflyer.com/xdash_images/af_icon_orange.png" alt="green icon" class="image-option" data-url="https://web1.sa.appsflyer.com/xdash_images/af_icon_orange.png">
-            <img src="https://web1.sa.appsflyer.com/xdash_images/af_icon_green.png" alt="green icon" class="image-option" data-url="https://web1.sa.appsflyer.com/xdash_images/af_icon_green.png">
-      </div>
+            <img src="icons/af_icon_rainbow.png" alt="rainbow icon" class="image-option" data-url="icons/af_icon_rainbow.png">
+            <img src="icons/af_icon_red.png" alt="red icon" class="image-option" data-url="icons/af_icon_red.png">
+            <img src="icons/af_icon_orange.png" alt="orange icon" class="image-option" data-url="icons/af_icon_orange.png">
+            <img src="icons/af_icon_green.png" alt="green icon" class="image-option" data-url="icons/af_icon_green.png">
+            <img src="icons/af_icon_demogaming.png" alt="gaming icon" class="image-option" data-url="icons/af_icon_demogaming.png">
+        </div>
         <div class="subsection-header" id="customiconsection">Custom Icon URL:</div>
         <input type="text" id="customImageUrl" placeholder="Or enter a custom image URL">
         <div id="customImagePreview" class="image-preview"></div>
@@ -24,16 +25,23 @@
     <!-- Media Sources Section -->
     <div class="subsection" id="mediasection">
         <div class="subsection-header">Media Sources:</div>
+        <div class="text-blurb">
+            These are the media sources we expect to see in the Overview/SKAN Dashboards, but you can add your own as needed.
+        </div>
         <div id="mediaSources"></div>
         <button id="addMediaSource" class="action-button">&#x2795;</button> <!-- Plus Emoji -->
     </div>
     <!-- In App Events Section -->
     <div class="subsection" id="inappsection">
         <div class="subsection-header">In App Events:</div>
+        <!-- Adding a new div for the text blurb -->
+        <div class="text-blurb">
+            The events below are listed from highest count to lowest count - just as they are in the Overview Dashboard.
+        </div>
         <div id="inAppEvents" class="space-y-2"></div>
         <button id="addInAppEvent" class="action-button">&#x2795;</button> <!-- Plus Emoji -->
     </div>
-
+    
     <div class="save-section" id="saveSection">
         <button id="save">Save</button>
     </div>

@@ -170,3 +170,14 @@ input[type="text"] {
     text-align: center;
     margin-bottom: 15px;
 }
+
+.text-blurb {
+    font-size: 0.4em; // Slightly smaller than normal text
+    color: #7b7b7b; // A lighter, more subtle color
+    margin-top: 0.5em; // Space above the blurb
+    margin-bottom: 1em; // Space below the blurb
+    padding: 0.5em; // Padding around the text for readability
+    border-left: 3px solid #ccc; // A subtle left border for emphasis
+    background-color: #f9f9f9; // A light background to make it stand out
+    font-style: italic; // Italicize the text for emphasis
+}
