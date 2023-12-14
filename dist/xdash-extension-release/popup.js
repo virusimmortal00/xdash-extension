@@ -215,43 +215,52 @@ document.addEventListener('DOMContentLoaded', function() {
     function loadOrSetDefaultImage() {
         console.log("Loading or setting default image");
         chrome.storage.sync.get(['selectedImage'], function(result) {
-            const defaultSelectedImage = "https://web1.sa.appsflyer.com/xdash_images/af_icon_rainbow.png";
-            const selectedImage = result.selectedImage || defaultSelectedImage;
+            // Define the default selected image
+            const defaultSelectedImage = "icons/af_icon_rainbow.png";
+            let selectedImage = result.selectedImage || defaultSelectedImage;
             console.log("Selected image:", selectedImage);
-            selectImage(selectedImage);
-
-            if (selectedImage && !selectedImage.startsWith('https://web1.sa.appsflyer.com')) {
-                customImageUrlInput.value = selectedImage;
-                customImagePreview.innerHTML = `<img src="${selectedImage}" class="preview-image">`;
-                customImagePreview.style.border = '2px solid green';
-                customImagePreview.style.display = 'block';
-            } else {
+    
+            // Check if the selected image is a predefined image or a custom URL
+            const isPredefinedImage = selectedImage.startsWith("icons/");
+            if (isPredefinedImage) {
+                // Handle predefined image
+                selectImage(selectedImage); // This will update the border for the selected predefined image
                 customImageUrlInput.value = '';
                 customImagePreview.innerHTML = '';
-                customImagePreview.style.border = 'none';
                 customImagePreview.style.display = 'none';
+            } else {
+                // Handle custom image URL
+                customImageUrlInput.value = selectedImage;
+                selectImage(selectedImage, true); // This will update the preview for the custom image URL
             }
         });
     }
+    
 
     function selectImage(url, isCustom = false) {
         console.log("selectImage called with URL:", url, "Is custom URL:", isCustom);
+    
+        // Deselect all predefined images
         document.querySelectorAll('.image-option').forEach(img => {
-            if (img.getAttribute('src') === url || (isCustom && img.getAttribute('data-url') === url)) {
-                img.style.border = '2px solid green';
-            } else {
-                img.style.border = 'none';
-            }
+            img.style.border = 'none';
         });
-
+    
         if (isCustom) {
+            // Display custom image preview
             customImagePreview.innerHTML = `<img src="${url}" class="preview-image">`;
             customImagePreview.style.border = '2px solid green';
+            customImagePreview.style.display = 'block';
         } else {
+            // Highlight selected predefined image
+            const predefinedImage = document.querySelector(`.image-option[src="${url}"]`);
+            if (predefinedImage) {
+                predefinedImage.style.border = '2px solid green';
+            }
             customImagePreview.innerHTML = '';
-            customImagePreview.style.border = 'none';
+            customImagePreview.style.display = 'none';
         }
     }
+
 
     
 

@@ -73,9 +73,15 @@ function replaceImage() {
   chrome.storage.sync.get(["selectedImage"], function (result) {
     var imageToUse = result.selectedImage;
     console.log("Image to use: ".concat(imageToUse));
+
+    // Convert local image path to a web-accessible URL
+    if (imageToUse && imageToUse.startsWith('icons/')) {
+      imageToUse = chrome.runtime.getURL(imageToUse);
+    }
     if (!imageToUse) {
       console.log("No selected image found in storage, using default");
-      imageToUse = "https://web1.sa.appsflyer.com/xdash_images/af_icon_rainbow.png"; // Default image URL
+      // Update the default image path to a web-accessible URL
+      imageToUse = chrome.runtime.getURL("icons/af_icon_rainbow.png");
     }
     var images;
     if (window.location.href.includes("onelink")) {

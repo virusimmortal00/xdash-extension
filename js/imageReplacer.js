@@ -9,10 +9,15 @@ export function replaceImage() {
     let imageToUse = result.selectedImage;
     console.log(`Image to use: ${imageToUse}`);
 
+    // Convert local image path to a web-accessible URL
+    if (imageToUse && imageToUse.startsWith('icons/')) {
+        imageToUse = chrome.runtime.getURL(imageToUse);
+    }
+
     if (!imageToUse) {
       console.log("No selected image found in storage, using default");
-      imageToUse =
-        "https://web1.sa.appsflyer.com/xdash_images/af_icon_rainbow.png"; // Default image URL
+      // Update the default image path to a web-accessible URL
+      imageToUse = chrome.runtime.getURL("icons/af_icon_rainbow.png");
     }
 
     let images;
@@ -24,13 +29,10 @@ export function replaceImage() {
         images = document.querySelectorAll('[class^="MuiAvatar-img"]');
     }
 
-
     let imagesChanged = 0;
     let totalImages = images.length;
 
-    console.log(
-      `Found ${totalImages} images for replacement with '${imageToUse}'`
-    );
+    console.log(`Found ${totalImages} images for replacement with '${imageToUse}'`);
 
     if (totalImages === 0) {
       removeLoadingOverlay();

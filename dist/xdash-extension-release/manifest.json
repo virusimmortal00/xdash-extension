@@ -16,10 +16,16 @@
             "matches": [
                 "https://hq1.appsflyer.com/unified-ltv/dashboard/com.appsflyer.android.demo.app.gaming*",
                 "https://hq1.appsflyer.com/skadnetwork/dashboard/id1510243350*",
-                "https://hq1.appsflyer.com/unified-ltv/dashboard/id1510243350*"           
+                "https://hq1.appsflyer.com/unified-ltv/dashboard/id1510243350*"
             ],
             "js": ["bundle.js"],
             "css": ["css/content.css"]
+        }
+    ],
+    "web_accessible_resources": [
+        {
+            "resources": ["icons/*"],
+            "matches": ["<all_urls>"]
         }
     ]
 }
