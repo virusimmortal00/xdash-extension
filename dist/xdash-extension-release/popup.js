@@ -14,6 +14,41 @@ document.addEventListener('DOMContentLoaded', function() {
     
     const extensionStatusCheckbox = document.getElementById('extensionStatusCheckbox');
 
+    // Default mappings for media sources and in-app events
+    const defaultMediaSources = [
+        "Facebook Ads",
+        "SMS",
+        "unityads_int",
+        "Apple Search Ads",
+        "applovin_int",
+        "remerge_int",
+        "Email",
+        "tapjoy_int",
+        "adquant",
+        "criteo_int",
+        "googleadwords_int",
+        "ironsource_int",
+        "bytedanceglobal_int",
+        "reddit_int",
+        "twitter_int",
+        "snapchat_int",
+        "vungle_int",
+        "tiktok_int",
+        "taboola_int",
+        "appguardion_int",
+        "blindferret_int",
+        "crosstarget_int",
+        "Google"
+    ];
+
+    const defaultInAppEvents = [
+        "level_5_achieved",
+        "tutorial_completed",
+        "af_purchase",
+        "ad_monetized",
+        "level_10_achieved",
+    ];
+
     chrome.storage.sync.get(['extensionEnabled'], function(result) {
         if (result.extensionEnabled === undefined) {
             chrome.storage.sync.set({ 'extensionEnabled': true }); // Set default state in storage
@@ -153,41 +188,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
 
     function loadExistingMappings() {
-        // Default mappings for media sources and in-app events
-        const defaultMediaSources = [
-            "Facebook Ads",
-            "SMS",
-            "unityads_int",
-            "Apple Search Ads",
-            "applovin_int",
-            "remerge_int",
-            "Email",
-            "tapjoy_int",
-            "adquant",
-            "criteo_int",
-            "googleadwords_int",
-            "ironsource_int",
-            "bytedanceglobal_int",
-            "reddit_int",
-            "twitter_int",
-            "snapchat_int",
-            "vungle_int",
-            "tiktok_int",
-            "taboola_int",
-            "appguardion_int",
-            "blindferret_int",
-            "crosstarget_int",
-            "Google"
-        ];
-    
-        const defaultInAppEvents = [
-            "level_5_achieved",
-            "tutorial_completed",
-            "af_purchase",
-            "ad_monetized",
-            "level_10_achieved",
-        ];
-    
+        
         console.log("Loading existing mappings");
     
         chrome.storage.sync.get(['mappings'], function(result) {
@@ -284,31 +285,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Function to load default mappings
     function loadDefaultMappings() {
-        // Define default mappings for Media Sources and In App Events
-        const defaultMediaSources = [
-            "Facebook Ads",
-            "SMS",
-            "unityads_int",
-            "Apple Search Ads",
-            "applovin_int",
-            "remerge_int",
-            "Email",
-            "tapjoy_int",
-            "itonsource_int",
-            "adquant",
-            "criteo_int",
-            "googleadwords_int",
-            "ironsource_int"
-        ];
-
-        const defaultInAppEvents = [
-            "level_5_achieved",
-            "af_purchase",
-            "level_10_achieved",
-            "tutorial_completed",
-            "ad_monetized"
-        ];
-
         // Add default mappings to the UI
         defaultMediaSources.forEach(original => {
             addMappingRow('mediaSources', original, '');
