@@ -222,6 +222,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 function replaceTextInElement(element) {
     chrome.storage.sync.get(["mappings"], (result) => {
+        // Check if the extension context is still valid
+        if (chrome.runtime.lastError) {
+            console.error("Extension context has been invalidated.");
+            return;
+        }
         const mappings = result.mappings;
         if (mappings && element) {
             const regexReplacementPairs = mappings

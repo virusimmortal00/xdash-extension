@@ -6,6 +6,12 @@ interface Mapping {
 
 export function replaceTextInElement(element: Node): void {
   chrome.storage.sync.get(["mappings"], (result: { [key: string]: any }) => {
+    // Check if the extension context is still valid
+    if (chrome.runtime.lastError) {
+        console.error("Extension context has been invalidated.");
+        return;
+    }
+
     const mappings: Mapping[] = result.mappings;
     if (mappings && element) {
       const regexReplacementPairs = mappings
