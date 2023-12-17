@@ -18,7 +18,7 @@
                 "https://hq1.appsflyer.com/skadnetwork/dashboard/id1510243350*",
                 "https://hq1.appsflyer.com/unified-ltv/dashboard/id1510243350*"
             ],
-            "js": ["bundle.js"],
+            "js": ["content.js"],
             "css": ["css/content.css"]
         }
     ],

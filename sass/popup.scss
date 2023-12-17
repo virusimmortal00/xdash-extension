@@ -181,3 +181,8 @@ input[type="text"] {
     background-color: #f9f9f9; // A light background to make it stand out
     font-style: italic; // Italicize the text for emphasis
 }
+#preset-mappings {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}

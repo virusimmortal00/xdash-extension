@@ -2,7 +2,6 @@ const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ZipPlugin = require('zip-webpack-plugin');
 
-// Function to format the current date and time
 function getFormattedDate() {
     const now = new Date();
     const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -16,23 +15,27 @@ function getFormattedDate() {
     return `${month}${day}_${formattedHour}_${minutes}${ampm}`;
 }
 
-
 module.exports = {
     mode: 'development',
-    entry: './content.js', // Your entry file
+    entry: {
+        'content': './src/content.ts', // Assuming TypeScript files are in 'src' folder
+        'popup': './src/popup.ts'
+    },
     output: {
         path: path.resolve(__dirname, 'dist/xdash-extension-release'),
-        filename: 'bundle.js'
+        filename: '[name].js' // Output filename based on entry name
+    },
+    resolve: {
+        extensions: ['.ts', '.tsx', '.js'] // Resolve these file extensions
     },
     module: {
         rules: [
             {
-                test: /\.js$/,
-                exclude: /node_modules/,
-                use: {
-                    loader: 'babel-loader'
-                }
-            }
+                test: /\.tsx?$/, // Regex for TypeScript files
+                use: 'ts-loader',
+                exclude: /node_modules/
+            },
+            // ... other rules ...
         ]
     },
     plugins: [
@@ -40,8 +43,7 @@ module.exports = {
             patterns: [
                 { from: 'manifest.json', to: 'manifest.json' },
                 { from: 'icons', to: 'icons' }, // Copy entire 'images' folder
-                { from: 'popup.js', to: 'popup.js' },
-                { from: 'popup.html', to: 'popup.html' },
+                { from: 'src/popup.html', to: 'popup.html' },
                 { from: 'css', to: 'css' }
                 // ... add other files or directories as needed
             ],
@@ -51,6 +53,5 @@ module.exports = {
             filename: `xdash-extension-release-${getFormattedDate()}.zip`
         })
     ],
-    devtool: 'source-map' // Add this line for source map
-    // ... (other configurations)
+    devtool: 'source-map' // Source map configuration
 };
