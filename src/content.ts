@@ -1,30 +1,32 @@
-import { createLoadingOverlay } from "./functions/content/loadingOverlay";
-import { replaceImage } from "./functions/content/imageReplacer";
-import { observeDOMChanges } from "./functions/content/DOMObserver";
-import { createAnimationStyles } from "./functions/content/createAnimationStyles";
+import { createLoadingOverlay } from './functions/content/loadingOverlay';
+import { replaceImage } from './functions/content/imageReplacer';
+import { observeDOMChanges } from './functions/content/DOMObserver';
+import { createAnimationStyles } from './functions/content/createAnimationStyles';
 import { replaceTextInElement } from './functions/content/textReplacer';
+import './styles/content.scss';
 
 const url: string = window.location.href;
 
 function checkExtensionStateAndRun(): void {
-  chrome.storage.sync.get(["extensionEnabled"], function (result: any) {
-    if (result.extensionEnabled !== false) { // Default to true if undefined
-      console.log("Extension is enabled. Running main functions...");
+  chrome.storage.sync.get(['extensionEnabled'], function (result: any) {
+    if (result.extensionEnabled !== false) {
+      // Default to true if undefined
+      console.log('Extension is enabled. Running main functions...');
       mainFunctions();
     } else {
-      console.log("Extension is disabled.");
+      console.log('Extension is disabled.');
     }
   });
 }
 
 function mainFunctions(): void {
-  console.log("Running main functions...");
+  console.log('Running main functions...');
   createLoadingOverlay();
   createAnimationStyles();
 
   let interval: number = window.setInterval(function () {
     if (document.querySelector('[class^="MuiAvatar-img"]')) {
-      console.log("Starting image and text replacement process");
+      console.log('Starting image and text replacement process');
       replaceImage();
       replaceTextInElement(document.body);
       clearInterval(interval);

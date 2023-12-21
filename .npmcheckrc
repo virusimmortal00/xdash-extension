@@ -1,0 +1,9 @@
+{
+    "depcheck": {
+      "ignoreMatches": [
+        "@types/chrome",
+        "typescript"
+      ]
+    }
+  }
+  

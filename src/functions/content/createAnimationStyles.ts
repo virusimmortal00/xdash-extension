@@ -1,7 +1,7 @@
 export function createAnimationStyles() {
   // Add keyframes for spin and color change animations
-  const styleSheet = document.createElement("style");
-  styleSheet.type = "text/css";
+  const styleSheet = document.createElement('style');
+  styleSheet.type = 'text/css';
   styleSheet.innerText = `
 @keyframes spin {
     0% { transform: rotate(0deg); }
