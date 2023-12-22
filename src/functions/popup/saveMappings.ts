@@ -23,9 +23,7 @@ export function saveMappings(): void {
   document
     .querySelectorAll('#mediaSources .mapping-row, #inAppEvents .mapping-row')
     .forEach((div) => {
-      const originalInput = div.querySelector(
-        '.original-text'
-      ) as HTMLInputElement;
+      const originalInput = div.querySelector('.original-text') as HTMLInputElement;
       const newTextInput = div.querySelector('.new-text') as HTMLInputElement;
       const section = div.parentElement ? div.parentElement.id : '';
 
@@ -39,33 +37,34 @@ export function saveMappings(): void {
     });
 
   let imageToSave: string;
-  const selectedImageElement = document.querySelector(
-    '.image-option[style*="border: 2px solid green"]'
-  ) as HTMLImageElement | null;
+  const selectedImageElement = document.querySelector('.image-option[style*="border: 2px solid green"]') as HTMLImageElement | null;
 
   if (selectedImageElement) {
-    imageToSave =
-      selectedImageElement.getAttribute('src') ||
-      'https://web1.sa.appsflyer.com/xdash_images/af_icon_rainbow.png';
+    imageToSave = selectedImageElement.getAttribute('src') || 'https://web1.sa.appsflyer.com/xdash_images/af_icon_rainbow.png';
   } else if (customImageUrlInput.value) {
     imageToSave = customImageUrlInput.value;
   } else {
-    imageToSave =
-      'https://web1.sa.appsflyer.com/xdash_images/af_icon_rainbow.png';
+    imageToSave = 'https://web1.sa.appsflyer.com/xdash_images/af_icon_rainbow.png';
   }
+
+  // Retrieve the currently active preset button's value
+  const activePresetButton = document.querySelector('.preset-button.active') as HTMLButtonElement;
+  const activePresetValue = activePresetButton ? activePresetButton.value : '';
 
   const isEnabled = extensionStatusCheckbox.checked;
   chrome.storage.sync.set({ extensionEnabled: isEnabled }, () => {
     console.log('Extension status saved:', isEnabled);
   });
 
+  // Save mappings, selected image, and active preset button state
   chrome.storage.sync.set(
-    { mappings: allMappings, selectedImage: imageToSave },
+    { mappings: allMappings, selectedImage: imageToSave, activePreset: activePresetValue },
     () => {
       console.log(
-        'Mappings and selected image saved:',
+        'Mappings, selected image, and active preset button state saved:',
         allMappings,
-        imageToSave
+        imageToSave,
+        activePresetValue
       );
       unsavedChangesMsg.innerText = 'Changes saved!';
       unsavedChangesMsg.style.color = 'green';

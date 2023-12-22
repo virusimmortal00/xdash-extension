@@ -2,7 +2,7 @@ $font-main: 'Poppins', sans-serif;
 $color-background: #f4f4f4;
 $color-text: #333;
 $color-border: #ccc;
-$color-button-hover: #d32f2f;
+$color-button-hover: #ffffff;
 $color-save-button: #1fc825;
 $color-save-button-hover: #45a049;
 $color-restore-button: #909090;
@@ -14,7 +14,13 @@ body {
   background-color: $color-background;
   color: $color-text;
   padding: 10px;
+
+  // Nested class for border alert
+  &.body-border-alert {
+    border: 2px solid red;
+  }
 }
+
 
 .mapping-row {
   display: flex;
@@ -191,13 +197,43 @@ input[type='text'] {
 .preset-button {
   background-color: transparent;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 13px;
   padding: 0 10px;
-  height: 20px;
+  margin: 5px;
+  height: 45px;
+  // rounded corners
+  border: none;
+  border-radius: 5px;
+
   &:hover {
     color: $color-button-hover;
   }
+
+  &.active {
+    outline: 2px solid green; // Adjust outline size and color as needed
+    outline-offset: 4px; // Adjust the space between the button and the outline
+    font-weight: bold;
+  }
+
+  // Specific styles for each button ID
+  &#button-general {
+    background-color: #de94d3; // Red
+  }
+  &#button-gaming {
+    background-color: #f7aaaa; // Green
+  }
+  &#button-ecommerce {
+    background-color: #fbce8e; // Blue
+  }
+  &#button-banking {
+    background-color: #83c583; // Green
+  }
+  &#button-custom {
+    background-color: #d5e083; // Blue
+  }
+  // Add more IDs and colors as needed
 }
+
 
 .selected-image {
   border: 2px solid green;

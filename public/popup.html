@@ -9,32 +9,38 @@
 <body>
 <div class="subsection" id="presetsection">
         <div class="subsection-header">Vertical Presets:</div>
+        <div class="text-blurb">
+            Although you can customize the options below however you want, you can also use these pre-configured options instead.
+        </div>
         <div id="preset-mappings">
             <div class="preset-row">
-                <button class="preset-button" value="general">
+                <button class="preset-button" value="button-general" id="button-general">
                     <span>General</span>
                 </button>
-                <button class="preset-button" value="gaming">
+                <button class="preset-button" value="button-gaming" id="button-gaming">
                     <span>Gaming</span>
                 </button>
-                <button class="preset-button" value="ecommerce">
+                <button class="preset-button" value="button-ecommerce" id="button-ecommerce">
                     <span>e-Commerce</span>
                 </button>
             </div>
             <div class="preset-row">
-                <button class="preset-button" value="banking">
+                <button class="preset-button" value="button-banking" id="button-banking">
                     <span>Banking/Finance</span>
                 </button>
-                <button class="preset-button" value="banking">
+                <button class="preset-button" value="button-custom" id="button-custom">
                     <span>Custom</span>
                 </button>
             </div>
         </div>
-    </div>
+</div>
 
     <!-- Image Replacement Section -->
     <div class="image-replacement-section">
         <div class="subsection-header">App Icon:</div>
+        <div class="text-blurb">
+            This icon will replace the existing AF Gaming Demo app icon.
+        </div>
         <div class="image-options">
             <img src="icons/af_icon_rainbow.png" alt="rainbow icon" class="image-option" data-url="icons/af_icon_rainbow.png">
             <img src="icons/af_icon_red.png" alt="red icon" class="image-option" data-url="icons/af_icon_red.png">
@@ -43,6 +49,9 @@
             <img src="icons/af_icon_demogaming.png" alt="gaming icon" class="image-option" data-url="icons/af_icon_demogaming.png">
         </div>
         <div class="subsection-header" id="customiconsection">Custom Icon URL:</div>
+        <div class="text-blurb">
+           Paste in the URL of a custom icon image here, instead of using one of the choices above.
+        </div>
         <input type="text" id="customImageUrl" placeholder="Or enter a custom image URL">
         <div id="customImagePreview" class="image-preview"></div>
     </div>

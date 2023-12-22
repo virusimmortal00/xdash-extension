@@ -9,8 +9,9 @@ export const customImageUrlInput = document.getElementById(
 
 export function loadOrSetDefaultImage() {
   console.log('Loading or setting default image');
-  chrome.storage.sync.get(['selectedImage'], function (result) {
+  chrome.storage.sync.get(['selectedImage', 'activePreset'], function (result) {
     // Define the default selected image
+    console.log('Loaded active preset button:', result.activePreset);
     const defaultSelectedImage = 'icons/af_icon_rainbow.png';
     let selectedImage = result.selectedImage || defaultSelectedImage;
     console.log('Selected image:', selectedImage);
@@ -27,6 +28,18 @@ export function loadOrSetDefaultImage() {
       // Handle custom image URL
       customImageUrlInput.value = selectedImage;
       selectImage(selectedImage, true); // This will update the preview for the custom image URL
+    }
+
+    document.querySelectorAll('.preset-button').forEach(button => {
+      button.classList.remove('active');
+    });
+
+    // Load and set active preset button
+    const activePresetButtonId = result.activePreset || 'button-custom';
+    const activePresetButton = document.getElementById(activePresetButtonId);
+    console.log('Active preset button:', activePresetButton);
+    if (activePresetButton) {
+      activePresetButton.classList.add('active');
     }
   });
 }

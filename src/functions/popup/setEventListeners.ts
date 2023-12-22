@@ -8,6 +8,7 @@ import {
   customImagePreview,
 } from './loadOrSetDefaultImage';
 import { extensionStatusCheckbox } from '../../popup';
+import { buttonConfigs } from './verticals'; 
 
 export function setEventListeners() {
   console.log('Setting event listeners');
@@ -42,6 +43,54 @@ export function setEventListeners() {
     }
     unsavedChangesMsg.style.display = 'block'; // Show unsaved changes message for custom URL changes
   });
+
+  function onPresetButtonClick(event: Event) {
+    // Remove 'active' class from all preset buttons
+    document.querySelectorAll('.preset-button').forEach((button) => {
+      button.classList.remove('active');
+    });
+
+    // Add 'active' class to the clicked button
+    const clickedButton = event.currentTarget as HTMLButtonElement;
+    clickedButton.classList.add('active');
+
+    // Get the config for the clicked button
+    const config =
+      buttonConfigs[clickedButton.id as keyof typeof buttonConfigs];
+    if (config) {
+      // Select the appropriate image
+      if (config.iconUrl) {
+        selectImage(config.iconUrl);
+      }
+
+      // Clear all in-app event mappings
+      const inAppEventsDiv = document.getElementById(
+        'inAppEvents'
+      ) as HTMLDivElement;
+      if (inAppEventsDiv) {
+        inAppEventsDiv.innerHTML = '';
+      }
+
+      // Add mappings for the selected button
+      config.mappings?.forEach((mapping) => {
+        addMappingRow(mapping.section, mapping.original, mapping.newText);
+      });
+    }
+  }
+
+  // Add event listeners to preset buttons
+  const presetButtons = document.querySelectorAll('.preset-button');
+  presetButtons.forEach((button) => {
+    button.addEventListener('click', onPresetButtonClick);
+  });
+
+  // Ensure the default active button is set
+  const defaultActiveButton = document.getElementById(
+    'button-custom'
+  ) as HTMLButtonElement;
+  if (defaultActiveButton) {
+    defaultActiveButton.classList.add('active');
+  }
 
   document.querySelectorAll('.image-option').forEach((img) => {
     img.addEventListener('click', () => {
