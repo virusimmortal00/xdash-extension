@@ -1,5 +1,6 @@
 import { addChangeListenerToInputs } from './addChangeListenerToInputs';
 import { unsavedChangesMsg } from './saveMappings';
+import { selectCustomVertical } from './setEventListeners';
 
 import { Mapping } from './Mapping'; // Adjust the path as necessary
 
@@ -33,7 +34,10 @@ export function addMappingRow(
   ) as HTMLButtonElement;
   removeButton.addEventListener('click', () => {
     mappingDiv.remove();
+    unsavedChangesMsg.innerText = 'Unsaved changes - make sure to save!';
     unsavedChangesMsg.style.display = 'block';
+    unsavedChangesMsg.style.color = 'red'; // Or any color indicating unsaved changes  
+    selectCustomVertical();
   });
 
   if (section === 'mediaSources') {

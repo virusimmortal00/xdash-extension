@@ -1,10 +1,7 @@
 import { defaultMediaSources, defaultInAppEvents } from './defaultMappings';
 import { addMappingRow } from './addMappingRow';
 import { unsavedChangesMsg } from './saveMappings';
-import {
-  customImageUrlInput,
-  customImagePreview,
-} from './loadOrSetDefaultImage';
+import { selectCustomVertical } from './setEventListeners';
 
 // Function to load default mappings
 function loadDefaultMappings() {
@@ -26,7 +23,8 @@ export function restoreDefaults() {
 
   // Load default mappings
   loadDefaultMappings();
+  selectCustomVertical();
 
   // Hide unsaved changes message
-  unsavedChangesMsg.style.display = 'none';
+  //unsavedChangesMsg.style.display = 'none';
 }
