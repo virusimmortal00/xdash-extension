@@ -7,6 +7,36 @@
     <link rel="stylesheet" href="css/popup.css">
 </head>
 <body>
+    <!-- Full Screen Overlay -->
+<div id="overlay">
+    <div class="overlay-content">
+        <h2>Welcome to xDash!</h2>
+        <p>Please fill in the following details, don't worry - this will only be asked once:</p>
+        
+        <label for="afGmail">AF Gmail:</label>
+        <input type="text" id="afGmail" name="afGmail" placeholder="Your AF Gmail">
+        <div class="error-message"></div>
+        <label for="afRegion">AF Region:</label>
+        <select id="afRegion" name="afRegion">
+            <option value="North America">North America</option>
+            <option value="EMEA">EMEA</option>
+            <option value="LATAM">LATAM</option>
+            <option value="APAC">APAC</option>
+        </select>
+
+        <label for="afTeam">AF Team:</label>
+        <select id="afTeam" name="afTeam">
+            <option value="Solutions Architect">Solutions Architect</option>
+            <option value="Sales (AM/AE)">Sales (AM/AE)</option>
+            <option value="CSM">CSM</option>
+            <option value="Support">Support</option>
+            <option value="Other">Other</option>
+        </select>
+
+        <button id="submitOverlay">Submit</button>
+    </div>
+</div>
+
 <div class="subsection" id="presetsection">
         <div class="subsection-header">Vertical Presets:</div>
         <div class="text-blurb">

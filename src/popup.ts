@@ -4,14 +4,16 @@ import { loadExistingMappings } from './functions/popup/loadExistingMappings';
 import { loadOrSetDefaultImage } from './functions/popup/loadOrSetDefaultImage';
 import { setEventListeners } from './functions/popup/setEventListeners';
 import { unsavedChangesMsg } from './functions/popup/saveMappings';
+import { OverlayHandler } from './functions/popup/overlayHandler';
 import AnalyticsHandler from './functions/popup/analyticsHandler';
 
 import './styles/popup.scss';
 
 const analyticsHandler = new AnalyticsHandler();
-let lastClickedVerticalPresetId: string | null = null;
-
+const overlayHandler = new OverlayHandler(analyticsHandler);
 export const extensionStatusCheckbox = document.getElementById('extensionStatusCheckbox') as HTMLInputElement;
+
+let lastClickedVerticalPresetId: string | null = null;
 
 function addAnalyticsEventListeners() {
   extensionStatusCheckbox.addEventListener('change', () => {
@@ -60,13 +62,16 @@ function addAnalyticsEventListeners() {
 document.addEventListener('DOMContentLoaded', () => {
   console.log('DOM fully loaded and parsed');
 
+  overlayHandler.initializeOverlay();
+
   const saveSection = document.getElementById('saveSection') as HTMLElement;
   const restoreDefaultsButton = document.getElementById('restoreDefaults') as HTMLButtonElement;
 
   chrome.storage.sync.get(['extensionEnabled'], (result: { extensionEnabled?: boolean }) => {
     if (result.extensionEnabled === undefined) {
-      chrome.storage.sync.set({ extensionEnabled: true });
-      extensionStatusCheckbox.checked = true;
+      // Initially, do not set extensionEnabled to true
+      // It will be set to true after submitting the overlay form
+      extensionStatusCheckbox.checked = false;
     } else {
       extensionStatusCheckbox.checked = result.extensionEnabled;
     }

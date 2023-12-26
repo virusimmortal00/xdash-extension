@@ -9,15 +9,17 @@ const url: string = window.location.href;
 
 function checkExtensionStateAndRun(): void {
   chrome.storage.sync.get(['extensionEnabled'], function (result: any) {
-    if (result.extensionEnabled !== false) {
-      // Default to true if undefined
+    if (result.extensionEnabled === true) {
+      // Run only if explicitly set to true
       console.log('Extension is enabled. Running main functions...');
       mainFunctions();
     } else {
-      console.log('Extension is disabled.');
+      // This will cover both false and undefined scenarios
+      console.log('Extension is disabled or not yet configured.');
     }
   });
 }
+
 
 function mainFunctions(): void {
   console.log('Running main functions...');
