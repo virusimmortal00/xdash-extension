@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite';
+import { visualizer } from "rollup-plugin-visualizer";
 import path from 'path';
 
 export default defineConfig({
@@ -9,7 +10,8 @@ export default defineConfig({
     rollupOptions: {
       input: {
         content: path.resolve(__dirname, 'src/content.ts'),
-        popup: path.resolve(__dirname, 'src/popup.ts') // Assuming popup.ts is your source file for popup
+        popup: path.resolve(__dirname, 'src/popup.ts'), // Your popup TypeScript file
+        background: path.resolve(__dirname, 'src/background.ts') // Your background TypeScript file
       },
       output: {
         format: 'es', // Use ES module format
@@ -23,5 +25,6 @@ export default defineConfig({
     },
   },
   publicDir: 'public',
-  server: false
+  server: false,
+  plugins: [visualizer()],
 });

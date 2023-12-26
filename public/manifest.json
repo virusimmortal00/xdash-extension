@@ -10,7 +10,7 @@
         "16": "icons/af_icon_rainbow_16.png",
         "48": "icons/af_icon_rainbow_48.png"
     },
-    "permissions": ["storage", "scripting"],
+    "permissions": ["storage", "scripting", "identity"],
     "content_scripts": [
         {
             "matches": [
@@ -22,10 +22,17 @@
             "css": ["css/content.css"]
         }
     ],
+    "background": {
+            "service_worker": "background.js",
+            "type": "module"
+        },
     "web_accessible_resources": [
         {
             "resources": ["icons/*"],
             "matches": ["<all_urls>"]
         }
-    ]
+    ],
+    "content_security_policy": {
+        "extension_pages": "script-src 'self'; object-src 'self';"
+    }
 }
