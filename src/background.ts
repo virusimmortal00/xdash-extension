@@ -1,6 +1,8 @@
+import { db } from './functions/popup/firebaseInit';
 import AnalyticsHandler from './functions/popup/analyticsHandler';
 
 const analyticsHandler = new AnalyticsHandler();
+
 
 // Use analyticsHandler to call methods, e.g., analyticsHandler.fireEvent(...)
 
