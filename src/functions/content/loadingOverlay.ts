@@ -42,13 +42,13 @@ export function createLoadingOverlay() {
 
   // Dynamic message updates
   const messages = [
-    'Life is like a box of chocolates, but with less SKAN.',
-    'Grounding up some fresh attribution.',
-    'Compiling our deepest darkest secrets.',
-    "Mo' ROAS, mo' problems.",
-    "I'm sure some of these numbers are right...",
-    'Pre-heating the deep links.',
-    "Attribution is our favorite kind of 'bution.",
+    `Did you know? AppsFlyer has managed over 10,000 global SKAN campaigns, a record in the mobile marketing sector.`,
+    `Trivia fact: 85% of the world's leading marketers rely on AppsFlyer for their attribution needs.`,
+    `Daily data processing at AppsFlyer exceeds a billion data points, setting the benchmark in analytics`,
+    `With a 98% accuracy rate in analytics, AppsFlyer stands out as a leader in precise marketing data`,
+    `75% of the top apps improve user engagement through AppsFlyer's deep linking technology.`,
+    `Pre-heating the deep links.`,
+    `Impressive number: Over 50,000 apps globally choose AppsFlyer for their marketing attribution, leading the industry.`,
   ];
 
   // Shuffle messages

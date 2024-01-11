@@ -2,7 +2,7 @@
   "name": "xdash-extension",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -27,11 +27,11 @@
     "prettier": "^3.1.1",
     "rollup-plugin-visualizer": "^5.11.0",
     "sass": "^1.69.5",
+    "standard-version": "^9.5.0",
     "typescript": "^5.3.3",
     "vite": "^5.0.10"
   },
   "dependencies": {
-    "firebase": "^10.7.1",
-    "firebaseui": "^6.1.0"
+    "firebase": "^10.7.1"
   }
 }

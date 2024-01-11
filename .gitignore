@@ -1,6 +1,6 @@
 /.DS_Store
 /.vscode
 /css/*.css.map
-node_modules
 dist_archive
 ```
+node_modules
