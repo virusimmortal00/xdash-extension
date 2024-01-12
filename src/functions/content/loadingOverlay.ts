@@ -47,7 +47,7 @@ export function createLoadingOverlay() {
     `Daily data processing at AppsFlyer exceeds a billion data points, setting the benchmark in analytics`,
     `With a 98% accuracy rate in analytics, AppsFlyer stands out as a leader in precise marketing data`,
     `75% of the top apps improve user engagement through AppsFlyer's deep linking technology.`,
-    `Pre-heating the deep links.`,
+    `Marketers using AppsFlyer have seen an average ROAS increase of 30%!`,
     `Impressive number: Over 50,000 apps globally choose AppsFlyer for their marketing attribution, leading the industry.`,
   ];
 
