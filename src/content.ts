@@ -22,6 +22,12 @@ function checkExtensionStateAndRun(): void {
 
 
 function mainFunctions(): void {
+  const url: string = window.location.href;
+
+  if (!url.includes('com.appsflyer.android.demo.app.gaming') && !url.includes('id1510243350')) {
+    return;
+  }
+
   console.log('Running main functions...');
   createLoadingOverlay();
   createAnimationStyles();

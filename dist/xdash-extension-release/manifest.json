@@ -14,9 +14,7 @@
     "content_scripts": [
         {
             "matches": [
-                "https://hq1.appsflyer.com/unified-ltv/dashboard#appIds=id1510243350",
-                "https://hq1.appsflyer.com/unified-ltv/dashboard#appIds=com.appsflyer.android.demo.app.gaming,id1510243350",
-                "https://hq1.appsflyer.com/unified-ltv/dashboard#appIds=id1510243350,com.appsflyer.android.demo.app.gaming",
+                "https://hq1.appsflyer.com/unified-ltv/dashboard/*",
                 "https://hq1.appsflyer.com/unified-ltv/dashboard/com.appsflyer.android.demo.app.gaming*",
                 "https://hq1.appsflyer.com/skadnetwork/dashboard/id1510243350*",
                 "https://hq1.appsflyer.com/unified-ltv/dashboard/id1510243350*"
