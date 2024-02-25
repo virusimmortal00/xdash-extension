@@ -34,10 +34,10 @@ export function replaceTextInElement(element: Node): void {
       const processNode = (node: Node): void => {
         if (node.nodeType === Node.TEXT_NODE) {
           regexReplacementPairs.forEach((pair) => {
-            node.textContent = (node.textContent ?? '').replace(
-              pair.regex,
-              pair.replacement
-            );
+            const nodeText = node.textContent ?? '';
+            if (nodeText.includes(pair.original) && !nodeText.includes(pair.replacement)) {
+              node.textContent = nodeText.replace(pair.regex, pair.replacement);
+            }
           });
         } else if (
           node.nodeType === Node.ELEMENT_NODE &&

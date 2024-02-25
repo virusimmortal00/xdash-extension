@@ -8,8 +8,8 @@ import './styles/content.scss';
 const url: string = window.location.href;
 
 function checkExtensionStateAndRun(): void {
-  chrome.storage.sync.get(['extensionEnabled'], function (result: any) {
-    if (result.extensionEnabled === true) {
+  chrome.runtime.sendMessage({action: 'getExtensionState'}, function(response) {
+    if (response.extensionEnabled === true) {
       // Run only if explicitly set to true
       console.log('Extension is enabled. Running main functions...');
       mainFunctions();

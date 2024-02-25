@@ -7,6 +7,15 @@ const analyticsHandler = new AnalyticsHandler();
 // Use analyticsHandler to call methods, e.g., analyticsHandler.fireEvent(...)
 
 
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (request.action === 'getExtensionState') {
+    chrome.storage.sync.get(['extensionEnabled'], function (result: any) {
+      sendResponse({extensionEnabled: result.extensionEnabled});
+    });
+    return true;  // Will respond asynchronously.
+  }
+});
+
 addEventListener('unhandledrejection', async (event) => {
   if (event.reason instanceof Error) {
     await analyticsHandler.fireErrorEvent({ message: event.reason.message });
@@ -16,7 +25,11 @@ addEventListener('unhandledrejection', async (event) => {
 });
 
 chrome.runtime.onInstalled.addListener(async () => {
-  await analyticsHandler.fireEvent('install');
+  try {
+    await analyticsHandler.fireEvent('install');
+  } catch (error) {
+    console.error('Error firing install event:', error);
+  }
 });
 
 // Schedule to throw an exception after a timeout
