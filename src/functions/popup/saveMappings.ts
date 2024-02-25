@@ -69,8 +69,12 @@ export function saveMappings(): void {
       unsavedChangesMsg.innerText = 'Changes saved!';
       unsavedChangesMsg.style.color = 'green';
       unsavedChangesMsg.style.display = 'block';
+      document.body.classList.remove('body-border-alert');
+      document.body.classList.add('body-border-good');
+
       setTimeout(() => {
         unsavedChangesMsg.style.display = 'none';
+        document.body.classList.remove('body-border-good');
       }, 2000);
     }
   );

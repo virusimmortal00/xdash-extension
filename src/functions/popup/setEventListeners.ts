@@ -70,6 +70,7 @@ export function setEventListeners(): void {
       config.mappings?.forEach(mapping => addMappingRow(mapping.section, mapping.original, mapping.newText));
     }
     setUnsavedChangesMessage(UNSAVED_CHANGES_TEXT, DISPLAY_BLOCK, COLOR_RED);
+    document.body.classList.add('body-border-alert');
   }
 
   const presetButtons = document.querySelectorAll('.preset-button');

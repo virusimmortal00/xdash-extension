@@ -14,7 +14,7 @@ export function replaceTextInElement(element: Node): void {
 
     const mappings: Mapping[] = result.mappings;
     if (mappings && element) {
-      const regexReplacementPairs = mappings
+      let regexReplacementPairs = mappings
         .filter(
           (mapping) =>
             (mapping.section === 'mediaSources' ||
@@ -26,6 +26,13 @@ export function replaceTextInElement(element: Node): void {
           regex: new RegExp(mapping.original, 'gi'),
           replacement: mapping.newText,
         }));
+
+      // Add new hardcoded mapping
+      regexReplacementPairs.push({
+        original: 'AppsFlyer gaming app',
+        regex: new RegExp('AppsFlyer gaming app', 'gi'),
+        replacement: 'xDash demo app',
+      });
 
       regexReplacementPairs.sort(
         (a, b) => b.original.length - a.original.length
