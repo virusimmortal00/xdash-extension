@@ -14,6 +14,8 @@ export const defaultMediaSources = [
   'googleadwords_int',
   'ironsource_int',
   'bytedanceglobal_int',
+  'CTV_to_mobile_partner',
+  'Youtube',
   'reddit_int',
   'twitter_int',
   'snapchat_int',
